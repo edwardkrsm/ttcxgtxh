@@ -1,6 +1,17 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Trạm Khí Tượng Cảm Xúc</title>
+<meta name="description" content="Trạm Khí Tượng Cảm Xúc: check-in thời tiết nội tâm, radio, hòm thư ẩn danh và sổ tay giúp tách điều quan sát được khỏi điều suy đoán.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%231B6B75'/%3E%3Cpath d='M16 16l6-8' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&display=swap">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
 <style>
 /* Bố cục: một trang dài như tờ bản tin khí tượng. Cửa sổ trời ở đầu trang đổi theo thời tiết người dùng chọn;
    mọi phần còn lại giữ yên tĩnh để bầu trời là điểm nhấn duy nhất. Nét đứt = suy đoán, nét liền = điều quan sát được. */
@@ -243,7 +254,8 @@ input[type=range]{width:100%;accent-color:var(--accent);height:24px;background:t
 .play{width:56px;height:56px;border-radius:50%;background:var(--accent);color:var(--accent-ink);border:0;display:grid;place-items:center;transition:transform .2s;flex:none}
 .play:hover{transform:scale(1.06)}
 .play svg{width:22px;height:22px}
-.vol{display:flex;gap:10px;align-items:center;flex:1 1 150px;min-width:0;color:var(--ink-2);font-size:var(--fs-sm)}
+.vol{display:flex;gap:10px;align-items:center;flex:1 1 150px;min-width:0;color:var(--ink-2);font-size:var(--fs-sm);white-space:nowrap}
+.vol input{flex:1;min-width:0}
 .sleep{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:var(--fs-sm);color:var(--ink-2)}
 .sleep .chip{padding:6px 12px;font-size:var(--fs-xs)}
 .eps{display:grid;gap:12px;min-width:0}
@@ -315,6 +327,30 @@ input[type=range]{width:100%;accent-color:var(--accent);height:24px;background:t
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
 </style>
+<style>
+/* ===== Đếm lượt ẩn danh và lời chia sẻ ===== */
+.consent{padding-top:16px}
+.consent-in{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:0 18px 46px -18px var(--shadow);padding:16px 18px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 22px;align-items:center;font-size:var(--fs-sm)}
+@media(max-width:700px){.consent-in{grid-template-columns:minmax(0,1fr)}}
+.consent-in p{color:var(--ink-2);line-height:1.6}
+.consent-in b{color:var(--ink);font-weight:600}
+.consent-btns{display:flex;gap:8px;flex-wrap:wrap}
+
+.share{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,64px);align-items:start}
+@media(max-width:860px){.share{grid-template-columns:minmax(0,1fr)}}
+.share-copy{display:grid;gap:14px;color:var(--ink-2)}
+.fcard{padding:clamp(20px,3vw,32px);border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line);display:grid;gap:18px;min-width:0}
+.field{display:grid;gap:8px;min-width:0}
+.fl{font-size:var(--fs-sm);font-weight:500}
+.fcard textarea,.fcard input[type=text]{width:100%;padding:11px 13px;border-radius:var(--r-sm);border:1px dashed var(--ink-2);background:var(--bg);font-size:var(--fs-sm)}
+.fcard textarea{min-height:140px;resize:vertical;line-height:1.6}
+.fcard textarea:focus,.fcard input[type=text]:focus{outline:2px solid var(--accent);outline-offset:0;border-style:solid}
+.agree{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;font-size:var(--fs-sm);color:var(--ink-2);cursor:pointer}
+.agree input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--accent)}
+.fcard input[type=text].hp{position:absolute;width:1px;height:1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);opacity:0}
+.fb-msg{font-size:var(--fs-sm);color:var(--ink-2);min-height:1.6em}
+.fb-msg.care{color:var(--ink);padding:14px 16px;border-radius:var(--r-sm);background:var(--soft);border:1px solid var(--accent);line-height:1.6}
+</style>
 <style>.vent .fine{color:#2F4A53}.hero-note{margin-top:0}</style>
 
 <header class="nav">
@@ -329,12 +365,20 @@ input[type=range]{width:100%;accent-color:var(--accent);height:24px;background:t
       <a href="#radio" data-go="radio">Radio</a>
       <a href="#may" data-go="may">Mây trôi</a>
       <a href="#sotay" data-go="sotay">Sổ tay</a>
+      <a href="#chiase" data-go="chiase" id="navShare" hidden>Chia sẻ</a>
     </nav>
     <button class="iconbtn" id="themeBtn" type="button" aria-label="Đổi giao diện sáng hoặc tối">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg>
     </button>
   </div>
 </header>
+
+<div class="wrap consent" id="consent" role="region" aria-label="Đếm lượt sử dụng ẩn danh" hidden>
+  <div class="consent-in">
+    <p><b>Trạm có thể đếm lượt sử dụng ẩn danh không?</b> Trạm dùng số liệu này để báo cáo mức độ tham gia cho giảng viên. Trạm chỉ ghi các thao tác, ví dụ bạn chọn thời tiết nào hay đọc trang nào, cùng một mã ngẫu nhiên lưu trong trình duyệt này. Trạm không ghi tên, email hay nội dung bạn viết, kể cả ở Hòm thư Mây trôi.</p>
+    <div class="consent-btns"><button class="btn" id="consentYes" type="button">Đồng ý</button><button class="btn outline" id="consentNo" type="button">Không, cảm ơn</button></div>
+  </div>
+</div>
 
 <main id="view-home">
 
@@ -480,10 +524,50 @@ input[type=range]{width:100%;accent-color:var(--accent);height:24px;background:t
     </div>
   </section>
 
+  <!-- ===== Lời chia sẻ (chỉ hiện khi có TRACK_URL) ===== -->
+  <section class="block wrap" id="chiase" aria-labelledby="h-chiase" hidden>
+    <div class="sec-head">
+      <p class="mono eyebrow">Chia sẻ · Tự nguyện</p>
+      <h2 id="h-chiase">Điều gì đọng lại với bạn?</h2>
+      <p class="lead">Nếu Trạm giúp bạn nhìn một tình huống theo cách khác, hãy kể lại bằng vài câu. Khi bạn cho phép, lời chia sẻ sẽ được trích trong báo cáo gửi giảng viên để cho thấy Trạm đã giúp được ai và giúp như thế nào.</p>
+    </div>
+    <div class="share">
+      <div class="share-copy">
+        <p>Bạn có thể dùng biệt danh hoặc để trống tên. Xin đừng viết thông tin cá nhân của bạn hay của người khác, như họ tên đầy đủ, số điện thoại hoặc nơi học.</p>
+        <p>Ô này dành cho cảm nhận về Trạm. Nếu có điều gì đang rất nặng nề, bạn hãy dùng Hòm thư Mây trôi, nơi không lưu lại gì, hoặc nói với một người bạn tin cậy.</p>
+      </div>
+      <form class="fcard" id="fbForm" autocomplete="off">
+        <div class="field">
+          <label class="fl" for="fbText">Lời chia sẻ của bạn</label>
+          <textarea id="fbText" maxlength="600" placeholder="Bạn thấy điều gì khi dùng Trạm? Có khoảnh khắc nào khiến bạn nhìn một tình huống khác đi không?"></textarea>
+          <small class="fine" id="fbCount">0 / 600</small>
+        </div>
+        <div class="field" role="group" aria-labelledby="fbRateL">
+          <span class="fl" id="fbRateL">Trạm có giúp bạn tách điều quan sát khỏi điều suy đoán không? <span class="muted">(không bắt buộc)</span></span>
+          <div class="chips" id="fbRate">
+            <button class="chip" type="button" data-r="1" aria-pressed="false">Chưa</button>
+            <button class="chip" type="button" data-r="2" aria-pressed="false">Một chút</button>
+            <button class="chip" type="button" data-r="3" aria-pressed="false">Khá nhiều</button>
+            <button class="chip" type="button" data-r="4" aria-pressed="false">Rất nhiều</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="fl" for="fbName">Tên hoặc biệt danh <span class="muted">(không bắt buộc)</span></label>
+          <input type="text" id="fbName" maxlength="40">
+        </div>
+        <label class="agree" for="fbOk"><input type="checkbox" id="fbOk"><span>Mình đồng ý để người phụ trách trích lời chia sẻ này, kèm tên hoặc biệt danh nếu mình điền, trong báo cáo gửi giảng viên.</span></label>
+        <input class="hp" type="text" id="fbHp" name="website" tabindex="-1" aria-hidden="true" autocomplete="off">
+        <div><button class="btn" id="fbBtn" type="submit" disabled>Gửi lời chia sẻ</button></div>
+        <p class="fb-msg" id="fbMsg" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
   <footer class="wrap foot">
     <p class="mono">Trạm Khí Tượng Cảm Xúc</p>
     <p>Đây là công cụ tự nhận thức, không phải chẩn đoán hay trị liệu. Các chỉ số trong bản tin chỉ là ẩn dụ để gọi tên trạng thái.</p>
     <p>Nếu bạn đang quá tải hoặc thấy mình không an toàn, hãy nói chuyện với một người bạn tin cậy hoặc chuyên gia sức khỏe tâm thần gần bạn. Trong tình huống nguy hiểm tức thì, hãy gọi số cấp cứu địa phương (tại Việt Nam: 115 hoặc 113).</p>
+    <p id="consentRow" hidden>Trạm đếm lượt sử dụng ẩn danh khi bạn đồng ý, và không ghi tên, email hay nội dung bạn viết trong Hòm thư Mây trôi. Hiện tại: <b id="consentState">chưa chọn</b>. <button class="btn outline" id="consentChange" type="button" style="padding:6px 14px;margin-left:6px">Đổi lựa chọn</button></p>
   </footer>
 </main>
 
@@ -507,8 +591,11 @@ input[type=range]{width:100%;accent-color:var(--accent);height:24px;background:t
     <div class="rx-grid" id="rxGrid"></div>
   </div>
 </main>
+
 <script>
 "use strict";
+/* ===== CẤU HÌNH: dán địa chỉ Web app của Google Apps Script vào giữa hai dấu nháy để bật đếm lượt và hộp chia sẻ. Để trống thì cả hai đều tắt. ===== */
+const TRACK_URL="";
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -838,7 +925,7 @@ function renderTrack(){
   $("#rxTrack").innerHTML=Object.keys(L).map(k=>`<div class="tk${steps[k]?" done":""}"><i>${steps[k]?"✓":""}</i><span>${L[k]}</span></div>`).join("");
   const dn=$("#rxDone"); if(!dn) return;
   const all=steps.breath&&steps.ask&&steps.act;
-  if(all&&!dn.dataset.shown){ dn.dataset.shown="1"; dn.innerHTML=`<div class="done-note"><h3>Đơn thuốc đã hoàn tất</h3><p style="margin-top:6px">Trời trong bạn có thể còn đổi nhiều lần trong ngày, và điều đó không có gì sai. Khi cần, bạn có thể quay lại trạm và chọn một thời tiết khác.</p></div>`; }
+  if(all&&!dn.dataset.shown){ dn.dataset.shown="1"; Track.event("rx_complete",curW); dn.innerHTML=`<div class="done-note"><h3>Đơn thuốc đã hoàn tất</h3><p style="margin-top:6px">Trời trong bạn có thể còn đổi nhiều lần trong ngày, và điều đó không có gì sai. Khi cần, bạn có thể quay lại trạm và chọn một thời tiết khác.</p></div>`; }
   else if(!all){ dn.dataset.shown=""; dn.innerHTML=""; }
 }
 function mark(k,v=true){ if(steps[k]!==v){ steps[k]=v; renderTrack(); } }
@@ -852,7 +939,7 @@ function makeBreath(cfg){
     clear(); orb.style.transitionDuration=reduce?"0s":".7s"; orb.style.transform="scale(1)";
     phase.textContent=done?"Xong rồi":"Sẵn sàng";
     btn.textContent=done?`Làm lại ${cfg.rounds} vòng`:`Bắt đầu ${cfg.rounds} vòng`;
-    if(done) mark("breath");
+    if(done){ mark("breath"); Track.event("breath_done",curW); }
   }
   function run(i){
     if(!running) return;
@@ -873,7 +960,7 @@ function makeBreath(cfg){
 }
 
 function buildRx(key){
-  const W=WX[key]; curW=key; rxV.dataset.w=key; rxSky.setMode(key);
+  const W=WX[key]; curW=key; rxV.dataset.w=key; rxSky.setMode(key); Track.event("checkin",key);
   if(breathCtl) breathCtl.stop();
   steps.breath=steps.ask=steps.act=false; askManual=false; feelPicked=[];
   $("#rxTitle").innerHTML=W.title;
@@ -1005,7 +1092,7 @@ function initTang(){
   }
   chips.addEventListener("click",e=>{
     const b=e.target.closest("[data-i]"); if(!b) return;
-    cur=+b.dataset.i; $$("#scChips .chip").forEach(c=>c.setAttribute("aria-pressed",String(c===b))); render();
+    cur=+b.dataset.i; $$("#scChips .chip").forEach(c=>c.setAttribute("aria-pressed",String(c===b))); Track.event("scenario",SCEN[cur].id,"sc_"+cur); render();
   });
   stage.addEventListener("input",e=>{
     if(e.target.id!=="cert") return;
@@ -1031,7 +1118,7 @@ function initGame(){
   function show(){
     drawDots();
     if(i>=order.length){
-      const msg=score>=7?"Bạn tách hai tầng khá chắc tay. Hãy mang chính sự tỉnh táo ấy vào những lúc cảm xúc đang nóng.":"Nhầm lẫn là chuyện bình thường, vì trí óc vốn quen trộn hai tầng với nhau. Hãy thử lại và để ý những từ nói về bên trong người khác.";
+      Track.event("game_done",score+"/"+order.length); const msg=score>=7?"Bạn tách hai tầng khá chắc tay. Hãy mang chính sự tỉnh táo ấy vào những lúc cảm xúc đang nóng.":"Nhầm lẫn là chuyện bình thường, vì trí óc vốn quen trộn hai tầng với nhau. Hãy thử lại và để ý những từ nói về bên trong người khác.";
       body.innerHTML=`<p class="card-q">Bạn nhận diện đúng ${score} trên ${order.length} câu.</p><div class="fb"><span>${msg}</span><button class="btn outline" id="gAgain" type="button">Chơi lại</button></div>`;
       return;
     }
@@ -1140,7 +1227,7 @@ const Radio=(()=>{
   function applyVol(){ if(!ctx) return; const v=vol*vol*.9, n=ctx.currentTime; master.gain.cancelScheduledValues(n); master.gain.setTargetAtTime(playing?v:0,n,.12); }
   function tick(){ if(!playing) return; const c=ST[curId]; while(nextT<ctx.currentTime+.45){ c.sched(step,nextT); nextT+=c.stepLen; step++; } }
   function startStation(){
-    clearBeds(); step=0; nextT=ctx.currentTime+.2;
+    clearBeds(); step=0; nextT=ctx.currentTime+.2; Track.event("radio_play",curId,"radio_"+curId);
     ST[curId].beds.forEach(bed);
   }
   function play(){
@@ -1217,6 +1304,93 @@ const Radio=(()=>{
   return {init,select,toggle};
 })();
 
+/* ===== Đếm lượt dùng ẩn danh và lời chia sẻ (chỉ chạy khi TRACK_URL có giá trị) ===== */
+const Track=(()=>{
+  const K_C="tkt_consent_v1", K_U="tkt_uid_v1";
+  const enabled=!!TRACK_URL;
+  let consent=null, memUid=null;
+  const once=new Set();
+  const rd=k=>{ try{ return localStorage.getItem(k); }catch(e){ return null; } };
+  const wr=(k,v)=>{ try{ localStorage.setItem(k,v); return true; }catch(e){ return false; } };
+  const rm=k=>{ try{ localStorage.removeItem(k); }catch(e){} };
+
+  /* Mã ngẫu nhiên, không gắn với tên hay thiết bị; chỉ để đếm số người khác nhau. */
+  function uid(){
+    const s=rd(K_U); if(s) return s;
+    if(memUid) return memUid;
+    const u=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2,12);
+    memUid=u; wr(K_U,u); return u;
+  }
+  /* text/plain để trình duyệt không cần gửi yêu cầu kiểm tra trước (preflight) tới Apps Script. */
+  function post(obj){
+    return fetch(TRACK_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(obj)});
+  }
+  /* Chỉ nhận tên sự kiện và một nhãn ngắn. Không bao giờ truyền nội dung người dùng viết vào đây. */
+  function event(type,detail,key){
+    if(!enabled||consent!=="yes") return;
+    if(key){ if(once.has(key)) return; once.add(key); }
+    try{ post({kind:"event",uid:uid(),type:type,detail:detail==null?"":String(detail).slice(0,40)}).catch(()=>{}); }catch(e){}
+  }
+  function paint(){
+    $("#consent").hidden=consent!==null;
+    const s=$("#consentState"); if(s) s.textContent=consent==="yes"?"đang bật":consent==="no"?"đang tắt":"chưa chọn";
+  }
+  function choose(v){
+    consent=v; wr(K_C,v);
+    if(v==="no"){ rm(K_U); memUid=null; }
+    paint();
+    if(v==="yes") event("visit","","visit");
+  }
+  function reset(){ consent=null; rm(K_C); once.clear(); paint(); }
+
+  function initForm(){
+    const f=$("#fbForm"), ta=$("#fbText"), ok=$("#fbOk"), nm=$("#fbName"), btn=$("#fbBtn"), msg=$("#fbMsg"), cnt=$("#fbCount"), hp=$("#fbHp");
+    let rating=0, busy=false;
+    const check=()=>{ cnt.textContent=`${ta.value.length} / ${ta.maxLength}`; btn.disabled=busy||!(ta.value.trim().length>=10&&ok.checked); };
+    ta.addEventListener("input",check); ok.addEventListener("change",check);
+    $("#fbRate").addEventListener("click",e=>{
+      const b=e.target.closest("[data-r]"); if(!b) return;
+      rating=rating===+b.dataset.r?0:+b.dataset.r;
+      $$("#fbRate .chip").forEach(c=>c.setAttribute("aria-pressed",String(+c.dataset.r===rating)));
+    });
+    f.addEventListener("submit",async e=>{
+      e.preventDefault();
+      const text=ta.value.trim();
+      if(busy||text.length<10||!ok.checked) return;
+      if(hp.value) return;
+      if(isCrisis(text)){
+        msg.className="fb-msg care";
+        msg.textContent="Điều bạn vừa viết rất quan trọng, và Trạm không gửi hay lưu nó. Hãy nói ngay với một người bạn tin cậy hoặc chuyên gia sức khỏe tâm thần gần bạn. Nếu bạn đang có nguy hiểm tức thì, hãy gọi 115 hoặc 113.";
+        return;
+      }
+      busy=true; check(); msg.className="fb-msg"; msg.textContent="Đang gửi…";
+      try{
+        await post({kind:"testimonial",text:text.slice(0,600),name:nm.value.trim().slice(0,40),rating:rating||"",quote_ok:true});
+        ta.value=""; nm.value=""; ok.checked=false; rating=0;
+        $$("#fbRate .chip").forEach(c=>c.setAttribute("aria-pressed","false"));
+        msg.textContent="Cảm ơn bạn. Lời chia sẻ của bạn đã được gửi đi.";
+      }catch(err){
+        msg.textContent="Chưa gửi được. Bạn kiểm tra kết nối rồi thử lại nhé.";
+      }
+      busy=false; check();
+    });
+    check();
+  }
+
+  function init(){
+    if(!enabled) return;
+    ["#navShare","#chiase","#consentRow"].forEach(s=>{ const el=$(s); if(el) el.hidden=false; });
+    const c=rd(K_C); consent=(c==="yes"||c==="no")?c:null;
+    paint();
+    if(consent==="yes") event("visit","","visit");
+    $("#consentYes").addEventListener("click",()=>choose("yes"));
+    $("#consentNo").addEventListener("click",()=>choose("no"));
+    $("#consentChange").addEventListener("click",reset);
+    initForm();
+  }
+  return {init,event};
+})();
+
 /* ===== Hòm thư: Gửi lời đến mây trôi ===== */
 function isCrisis(text){ return CRISIS_RE[0].test(text.toLowerCase().normalize("NFC"))||CRISIS_RE[1].test(strip(text)); }
 function composeReply(text){
@@ -1231,7 +1405,7 @@ function initVent(){
   ta.addEventListener("input",()=>{ cnt.textContent=`${ta.value.length} / ${ta.maxLength}`; btn.disabled=ta.value.trim().length<2; });
   form.addEventListener("submit",e=>{
     e.preventDefault(); const text=ta.value.trim(); if(text.length<2) return;
-    btn.disabled=true; ta.readOnly=true;
+    btn.disabled=true; ta.readOnly=true; Track.event("vent_sent");
     const care=isCrisis(text), msg=care?null:composeReply(text);
     const finish=()=>{
       ta.value=""; ta.readOnly=false; cnt.textContent=`0 / ${ta.maxLength}`; fly.hidden=true; fly.innerHTML=""; paper.classList.remove("flying");
@@ -1283,7 +1457,7 @@ const Book=(()=>{
   function go(n){
     n=Math.max(0,Math.min(N-1,n)); if(n===cur||busy) return;
     const from=pages[cur], to=pages[n], fwd=n>cur;
-    const done=()=>{ from.classList.remove("on"); from.style.zIndex=""; to.style.zIndex=""; cur=n; busy=false; paint(); };
+    const done=()=>{ from.classList.remove("on"); from.style.zIndex=""; to.style.zIndex=""; cur=n; busy=false; paint(); if(n>0) Track.event("book_page",String(n+1),"book_"+n); };
     to.classList.add("on");
     if(reduce||!from.animate){ done(); return; }
     busy=true;
@@ -1323,7 +1497,8 @@ function initTheme(){
   });
 }
 
-[initCheckin,initTang,initGame,()=>Radio.init(),initVent,()=>Book.init(),initTheme].forEach(f=>{ try{ f(); }catch(err){ console.error(err); } });
+[()=>Track.init(),initCheckin,initTang,initGame,()=>Radio.init(),initVent,()=>Book.init(),initTheme].forEach(f=>{ try{ f(); }catch(err){ console.error(err); } });
 </script>
 
-</body></html>
+</body>
+</html>
