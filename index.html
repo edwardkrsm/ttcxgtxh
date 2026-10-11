@@ -1499,11 +1499,10 @@ function initTheme(){
 
 [()=>Track.init(),initCheckin,initTang,initGame,()=>Radio.init(),initVent,()=>Book.init(),initTheme].forEach(f=>{ try{ f(); }catch(err){ console.error(err); } });
 </script>
-<!-- Bộ đếm lượt truy cập ẩn danh (GoatCounter). Chỉ cần thay YOURCODE bằng mã bạn đăng ký ở goatcounter.com -->
+<!-- Bộ đếm lượt truy cập ẩn danh (GoatCounter) -->
 <script>
 (function () {
   var CODE = "tramkhituong";
-  if (!CODE || CODE === "YOURCODE") return;
 
   // 1) Đếm lượt truy cập
   var s = document.createElement("script");
