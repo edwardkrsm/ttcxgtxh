@@ -1499,6 +1499,42 @@ function initTheme(){
 
 [()=>Track.init(),initCheckin,initTang,initGame,()=>Radio.init(),initVent,()=>Book.init(),initTheme].forEach(f=>{ try{ f(); }catch(err){ console.error(err); } });
 </script>
+<!-- Bộ đếm lượt truy cập ẩn danh (GoatCounter). Chỉ cần thay YOURCODE bằng mã bạn đăng ký ở goatcounter.com -->
+<script>
+(function () {
+  var CODE = "tramkhituong";
+  if (!CODE || CODE === "tramkhituong") return;
 
+  // 1) Đếm lượt truy cập
+  var s = document.createElement("script");
+  s.async = true;
+  s.src = "https://gc.zgo.at/count.js";
+  s.setAttribute("data-goatcounter", "https://" + CODE + ".goatcounter.com/count");
+  document.head.appendChild(s);
+
+  // 2) Đếm số lần check-in thời tiết (chỉ ghi tên thời tiết, không ghi nội dung nào)
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest(".wx[data-w]");
+    var gc = window.goatcounter;
+    if (!b || !gc || !gc.count) return;
+    var w = b.getAttribute("data-w");
+    gc.count({ path: "checkin-" + w, title: "Check-in: " + w, event: true });
+  });
+
+  // 3) Hiện tổng số lượt truy cập ở chân trang
+  fetch("https://" + CODE + ".goatcounter.com/counter/TOTAL.json")
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (!d || !d.count) return;
+      var p = document.createElement("p");
+      p.textContent = "Lượt truy cập: " + d.count + ". Số liệu được đếm ẩn danh bằng GoatCounter, không dùng cookie.";
+      var foot = document.querySelector(".foot");
+      if (foot) { foot.appendChild(p); return; }
+      p.style.cssText = "position:fixed;right:12px;bottom:12px;z-index:40;margin:0;padding:6px 12px;border-radius:999px;font:500 12px/1.4 system-ui,sans-serif;background:#10262D;color:#F6F9F9;pointer-events:none";
+      document.body.appendChild(p);
+    })
+    .catch(function () {});
+})();
+</script>
 </body>
 </html>
